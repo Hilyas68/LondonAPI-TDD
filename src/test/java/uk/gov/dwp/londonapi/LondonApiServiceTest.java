@@ -60,13 +60,6 @@ public class LondonApiServiceTest {
         "should return the list of users in or near london");
   }
 
-  private List<User> getUsersInOrNearLondon() {
-    return List.of(
-        new User("Mechelle", "Boam", "mboam3q@thetimes.co.uk", -6.5115909, 105.652983),
-        new User("Terry", "Stowgill", "tstowgillaz@webeden.co.uk", -6.7098551, 111.3479498)
-    );
-  }
-
   private List<User> getUsers(String name) {
     String userInLondon = getJsonString(name);
     try {
