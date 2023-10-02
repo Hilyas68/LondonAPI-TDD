@@ -12,7 +12,7 @@ public class LondonApiService {
 
   private final ExternalLondonApi externalLondonApi;
 
-  public List<User> getUserInCity(String london) {
-    return externalLondonApi.getUserInCity(london);
+  public List<User> getUserInCity(String city) {
+    return externalLondonApi.getUserInCity(city);
   }
 }

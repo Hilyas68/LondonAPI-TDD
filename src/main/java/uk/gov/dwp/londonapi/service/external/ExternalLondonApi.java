@@ -7,7 +7,7 @@ import uk.gov.dwp.londonapi.service.dto.User;
 @Service
 public class ExternalLondonApi {
 
-  public List<User> getUserInCity(String london) {
+  public List<User> getUserInCity(String city) {
     return  null;
   }
 }
