@@ -10,6 +10,7 @@ import uk.gov.dwp.londonapi.service.external.ExternalLondonApi;
 @RequiredArgsConstructor
 public class LondonApiService {
 
+  public static final int MAX_DISTANCE = 50;
   private final ExternalLondonApi externalLondonApi;
 
   public List<User> getUserInCity(String city) {
@@ -19,7 +20,7 @@ public class LondonApiService {
   public boolean isNearLondon(double latitude, double longitude, List<User> userInLondon) {
 
     for (User user : userInLondon) {
-      if (calculateDistance(latitude, longitude, user) <= 50) {
+      if (calculateDistance(latitude, longitude, user) <= MAX_DISTANCE) {
         return true;
       }
     }
