@@ -1,6 +1,7 @@
 package uk.gov.dwp.londonapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -44,7 +45,7 @@ public class LondonApiServiceTest {
 
     boolean isNearLondon = londonApiService.isNearLondon(-7.5115909, 130.652983,
         getUsers("users_in_london.json"));
-    assertEquals(true, isNearLondon, "should return true or false");
+    assertTrue(isNearLondon, "should return true or false");
   }
 
   @Test
