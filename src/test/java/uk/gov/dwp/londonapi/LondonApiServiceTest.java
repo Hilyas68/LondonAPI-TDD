@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.dwp.londonapi.service.LondonApiService;
@@ -16,6 +17,8 @@ import uk.gov.dwp.londonapi.service.external.ExternalLondonApi;
 @ExtendWith(MockitoExtension.class)
 public class LondonApiServiceTest {
 
+  @InjectMocks
+  LondonApiService londonApiService;
   @Mock
   private ExternalLondonApi externalLondonApi;
 
@@ -24,8 +27,7 @@ public class LondonApiServiceTest {
   public void givenCityAsLondonReturnUsers() {
     when(externalLondonApi.getUserInCity("London")).thenReturn(getUsersInLondon());
 
-    LondonApiService service = new LondonApiService(externalLondonApi);
-    List<User> users = service.getUserInCity("London");
+    List<User> users = londonApiService.getUserInCity("London");
     assertEquals(getUsersInLondon(), users, "should return the list of users in london");
   }
 
