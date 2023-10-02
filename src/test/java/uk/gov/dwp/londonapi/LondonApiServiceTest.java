@@ -34,7 +34,8 @@ public class LondonApiServiceTest {
     when(externalLondonApi.getUserInCity("London")).thenReturn(getUsers("users_in_london.json"));
 
     List<User> users = londonApiService.getUserInCity("London");
-    assertEquals(getUsers("users_in_london.json"), users, "should return the list of users in london");
+    assertEquals(getUsers("users_in_london.json"), users,
+        "should return the list of users in london");
   }
 
   @Test
@@ -44,6 +45,19 @@ public class LondonApiServiceTest {
     boolean isNearLondon = londonApiService.isNearLondon(-7.5115909, 130.652983,
         getUsers("users_in_london.json"));
     assertEquals(true, isNearLondon, "should return true or false");
+  }
+
+  @Test
+  @DisplayName("Given all users, return the users that are in london or 50 miles of London")
+  public void returnUsersInLondonOrNear() throws JsonProcessingException {
+
+    when(externalLondonApi.getUsers()).thenReturn(getUsers("all_users.json"));
+    when(externalLondonApi.getUserInCity("London")).thenReturn(getUsers("users_in_london.json"));
+
+    List<User> usersInOrNearLondon = londonApiService.geUsersInOrNearLondon();
+    System.out.println(new ObjectMapper().writeValueAsString(usersInOrNearLondon));
+    assertEquals(getUsers("users_in_or_near_london.json"), usersInOrNearLondon,
+        "should return the list of users in or near london");
   }
 
   private List<User> getUsersInOrNearLondon() {
@@ -56,7 +70,8 @@ public class LondonApiServiceTest {
   private List<User> getUsers(String name) {
     String userInLondon = getJsonString(name);
     try {
-      return new ObjectMapper().readValue(userInLondon, new TypeReference<>() {});
+      return new ObjectMapper().readValue(userInLondon, new TypeReference<>() {
+      });
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e);
     }
