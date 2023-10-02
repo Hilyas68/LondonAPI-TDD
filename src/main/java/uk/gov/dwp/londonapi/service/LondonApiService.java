@@ -15,4 +15,17 @@ public class LondonApiService {
   public List<User> getUserInCity(String city) {
     return externalLondonApi.getUserInCity(city);
   }
+
+  public boolean isNearLondon(double latitude, double longitude, List<User> userInLondon) {
+
+    for (User user : userInLondon) {
+      double calculatedDistance = Math.sqrt(
+          Math.pow(latitude - user.getLatitude(), 2) + Math.pow(longitude - user.getLongitude(), 2));
+
+      if (calculatedDistance <= 50) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

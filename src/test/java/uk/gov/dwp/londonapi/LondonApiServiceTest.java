@@ -31,6 +31,14 @@ public class LondonApiServiceTest {
     assertEquals(getUsersInLondon(), users, "should return the list of users in london");
   }
 
+  @Test
+  @DisplayName("Given a coordinate confirm if it's 50 miles of London.")
+  public void checkIfCoordinateNearLondon() {
+
+    boolean isNearLondon = londonApiService.isNearLondon(-6.5115909, 105.652983, getUsersInLondon());
+    assertEquals(true, isNearLondon, "should return true or false");
+  }
+
   private List<User> getUsersInLondon() {
     return List.of(
         new User("Mechelle", "Boam", "mboam3q@thetimes.co.uk", -6.5115909, 105.652983),
