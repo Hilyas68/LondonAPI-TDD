@@ -35,7 +35,7 @@ public class LondonApiServiceTest {
   @DisplayName("Given a coordinate confirm if it's 50 miles of London.")
   public void checkIfCoordinateNearLondon() {
 
-    boolean isNearLondon = londonApiService.isNearLondon(-6.5115909, 105.652983, getUsersInLondon());
+    boolean isNearLondon = londonApiService.isNearLondon(-7.5115909, 130.652983, getUsersInLondon());
     assertEquals(true, isNearLondon, "should return true or false");
   }
 
