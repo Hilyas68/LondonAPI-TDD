@@ -10,4 +10,8 @@ public class ExternalLondonApi {
   public List<User> getUserInCity(String city) {
     return  null;
   }
+
+  public List<User> getUsers() {
+    return null;
+  }
 }

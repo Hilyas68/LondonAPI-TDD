@@ -31,4 +31,8 @@ public class LondonApiService {
     return Math.sqrt(
         Math.pow(latitude - user.getLatitude(), 2) + Math.pow(longitude - user.getLongitude(), 2));
   }
+
+  public List<User> geUsersInOrNearLondon() {
+    return null;
+  }
 }
