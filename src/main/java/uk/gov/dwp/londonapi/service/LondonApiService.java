@@ -19,13 +19,15 @@ public class LondonApiService {
   public boolean isNearLondon(double latitude, double longitude, List<User> userInLondon) {
 
     for (User user : userInLondon) {
-      double calculatedDistance = Math.sqrt(
-          Math.pow(latitude - user.getLatitude(), 2) + Math.pow(longitude - user.getLongitude(), 2));
-
-      if (calculatedDistance <= 50) {
+      if (calculateDistance(latitude, longitude, user) <= 50) {
         return true;
       }
     }
     return false;
+  }
+
+  private double calculateDistance(double latitude, double longitude, User user) {
+    return Math.sqrt(
+        Math.pow(latitude - user.getLatitude(), 2) + Math.pow(longitude - user.getLongitude(), 2));
   }
 }
