@@ -49,14 +49,22 @@ public class LondonApiServiceTest {
 
   @Test
   @DisplayName("Given all users, return the users that are in london or 50 miles of London")
-  public void returnUsersInLondonOrNear() throws JsonProcessingException {
+  public void returnUsersInLondonOrNear() {
 
     when(externalLondonApi.getUsers()).thenReturn(getUsers("all_users.json"));
     when(externalLondonApi.getUserInCity("London")).thenReturn(getUsers("users_in_london.json"));
 
     List<User> usersInOrNearLondon = londonApiService.geUsersInOrNearLondon();
-    System.out.println(new ObjectMapper().writeValueAsString(usersInOrNearLondon));
     assertEquals(getUsers("users_in_or_near_london.json"), usersInOrNearLondon,
+        "should return the list of users in or near london");
+  }
+
+  @Test
+  @DisplayName("Given an empty list of user, it return an empty list of user in near london")
+  public void returnNoUser() {
+    when(externalLondonApi.getUsers()).thenReturn(List.of());
+    List<User> usersInOrNearLondon = londonApiService.geUsersInOrNearLondon();
+    assertEquals(List.of(), usersInOrNearLondon,
         "should return the list of users in or near london");
   }
 
