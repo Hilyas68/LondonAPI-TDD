@@ -2,6 +2,8 @@ package uk.gov.dwp.londonapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -55,6 +57,7 @@ public class LondonApiServiceTest {
         helper.getUsers("users_in_london.json"));
 
     List<User> users = londonApiService.getUserInCity("London");
+    verify(externalLondonApi, times(1)).getUserInCity("London");
     assertEquals(helper.getUsers("users_in_london.json"), users,
         "should return the list of users in london");
   }
