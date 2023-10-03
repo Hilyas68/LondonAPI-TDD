@@ -2,6 +2,7 @@ package uk.gov.dwp.londonapi.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uk.gov.dwp.londonapi.service.dto.User;
@@ -32,10 +33,12 @@ public class LondonApiService {
 
     final List<User> userInOrNearLondon = new ArrayList<>();
     final List<User> userInLondon = externalLondonApi.getUserInCity("London");
-    final List<User> users = externalLondonApi.getUsers();
-    for (User user : users) {
-      if (isNearLondon(user.getLatitude(), user.getLongitude(), userInLondon)) {
-        userInOrNearLondon.add(user);
+    if (!userInLondon.isEmpty()) {
+      final List<User> users = externalLondonApi.getUsers();
+      for (User user : users) {
+        if (isNearLondon(user.getLatitude(), user.getLongitude(), userInLondon)) {
+          userInOrNearLondon.add(user);
+        }
       }
     }
 

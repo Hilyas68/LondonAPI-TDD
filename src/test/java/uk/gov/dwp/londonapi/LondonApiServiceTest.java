@@ -42,10 +42,13 @@ public class LondonApiServiceTest {
   }
 
   @Test
-  @DisplayName("Given an empty list of user, it return an empty list of user in or near london")
+  @DisplayName(
+      "Given an empty list of user in london, it return an empty list of user in or near london"
+          + "and get all users in not called")
   public void returnNoUser() {
-    when(externalLondonApi.getUsers()).thenReturn(List.of());
+    when(externalLondonApi.getUserInCity("London")).thenReturn(List.of());
     List<User> usersInOrNearLondon = londonApiService.geUsersInOrNearLondon();
+    verify(externalLondonApi, times(0)).getUsers();
     assertEquals(List.of(), usersInOrNearLondon,
         "should return the list of users in or near london");
   }
