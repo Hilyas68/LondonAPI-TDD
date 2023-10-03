@@ -32,6 +32,15 @@ public class LondonApiServiceTest {
   private ExternalLondonApi externalLondonApi;
 
   @Test
+  @DisplayName("Given an empty list of user, it return an empty list of user in or near london")
+  public void returnNoUser() {
+    when(externalLondonApi.getUsers()).thenReturn(List.of());
+    List<User> usersInOrNearLondon = londonApiService.geUsersInOrNearLondon();
+    assertEquals(List.of(), usersInOrNearLondon,
+        "should return the list of users in or near london");
+  }
+
+  @Test
   @DisplayName("Given city as london, then return all people in London")
   public void givenCityAsLondonReturnUsers() {
     when(externalLondonApi.getUserInCity("London")).thenReturn(getUsers("users_in_london.json"));
@@ -52,6 +61,18 @@ public class LondonApiServiceTest {
   }
 
   @Test
+  @DisplayName("Given some users in london, ensure the list of users in or near London are returned"
+      + " without duplicate")
+  public void noduplicateUserReturned() {
+    when(externalLondonApi.getUsers()).thenReturn(getAllUsers());
+    when(externalLondonApi.getUserInCity("London")).thenReturn(getUsersInLondon());
+
+    List<User> usersInOrNearLondon = londonApiService.geUsersInOrNearLondon();
+    assertEquals(getUsersInOrNearLondonWithOutDuplicate(), usersInOrNearLondon,
+        "should return the list of users without duplicates");
+  }
+
+  @Test
   @DisplayName("Given all users, return the users that are in london or 50 miles of London")
   public void returnUsersInLondonOrNear() {
 
@@ -63,13 +84,45 @@ public class LondonApiServiceTest {
         "should return the list of users in or near london");
   }
 
-  @Test
-  @DisplayName("Given an empty list of user, it return an empty list of user in near london")
-  public void returnNoUser() {
-    when(externalLondonApi.getUsers()).thenReturn(List.of());
-    List<User> usersInOrNearLondon = londonApiService.geUsersInOrNearLondon();
-    assertEquals(List.of(), usersInOrNearLondon,
-        "should return the list of users in or near london");
+
+  private List<User> getUsersInLondon() {
+    return List.of(
+        new User("Mechelle", "Boam", "mboam3q@thetimes.co.uk",
+            -6.5115909, 105.652983),
+        new User("Terry", "Stowgill", "tstowgillaz@webeden.co.uk",
+            -6.7098551, 111.3479498),
+        new User("Stephen", "Mapstone", "smapstonei9@bandcamp.com",
+            -8.1844859, 113.6680747)
+    );
+  }
+
+
+  private List<User> getAllUsers() {
+    return List.of(
+        new User("Mechelle", "Boam", "mboam3q@thetimes.co.uk",
+            -6.5115909, 105.652983),
+        new User("Terry", "Stowgill", "tstowgillaz@webeden.co.uk",
+            -6.7098551, 111.3479498),
+        new User("Stephen", "Mapstone", "smapstonei9@bandcamp.com",
+            -8.1844859, 113.6680747),
+        new User("Tripp", "Matzel", "tmatzelp@wikia.com",
+            -27.3482312, -51.6044276),
+        new User("Jeane", "de Juares", "jdejuaresi@exblog.jp",
+            32.6797904, -5.5781378),
+        new User("Hassan", "Liasu", "smapstonei9@bandcamp.com",
+            -26.1844859, -52.6680747)
+    );
+  }
+
+  private List<User> getUsersInOrNearLondonWithOutDuplicate() {
+    return List.of(
+        new User("Mechelle", "Boam", "mboam3q@thetimes.co.uk",
+            -6.5115909, 105.652983),
+        new User("Terry", "Stowgill", "tstowgillaz@webeden.co.uk",
+            -6.7098551, 111.3479498),
+        new User("Stephen", "Mapstone", "smapstonei9@bandcamp.com",
+            -8.1844859, 113.6680747)
+    );
   }
 
   private List<User> getUsers(String name) {
