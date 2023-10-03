@@ -83,6 +83,9 @@ public class LondonApiServiceTest {
     when(externalLondonApi.getUserInCity("London")).thenReturn(helper.getUsersInLondon());
 
     List<User> usersInOrNearLondon = londonApiService.geUsersInOrNearLondon();
+
+    verify(externalLondonApi, times(1)).getUserInCity("London");
+    verify(externalLondonApi, times(1)).getUsers();
     assertEquals(helper.getUsersInOrNearLondonWithOutDuplicate(), usersInOrNearLondon,
         "should return the list of users without duplicates");
   }
