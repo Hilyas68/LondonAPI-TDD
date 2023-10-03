@@ -47,7 +47,6 @@ public class LondonApiServiceTest {
           + "and get all users in not called")
   public void returnNoUser() {
     List<User> usersInOrNearLondon = londonApiService.geUsersInOrNearLondon();
-    verify(externalLondonApi, times(0)).getUsers();
     assertEquals(List.of(), usersInOrNearLondon,
         "should return the list of users in or near london");
   }
@@ -100,6 +99,21 @@ public class LondonApiServiceTest {
 
     List<User> usersInOrNearLondon = londonApiService.geUsersInOrNearLondon();
     assertEquals(helper.getUsers("users_in_or_near_london.json"), usersInOrNearLondon,
+        "should return the list of users in or near london");
+  }
+
+  @Test
+  @DisplayName(
+      "Given an empty list of users in london, it return list of users in or near london using "
+          + "the default london coordinates")
+  public void returnUsersUsingDefault() {
+
+    when(externalLondonApi.getUserInCity("London")).thenReturn(List.of());
+    when(externalLondonApi.getUsers()).thenReturn(helper.getAllUsers());
+
+    List<User> usersInOrNearLondon = londonApiService.geUsersInOrNearLondon();
+    assertEquals(List.of(new User("Jeane", "de Juares", "jdejuaresi@exblog.jp",
+            32.6797904, -5.5781378)), usersInOrNearLondon,
         "should return the list of users in or near london");
   }
 

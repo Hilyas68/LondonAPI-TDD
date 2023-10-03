@@ -21,11 +21,21 @@ public class LondonApiService {
 
   public boolean isNearLondon(double latitude, double longitude, List<User> userInLondon) {
 
-    for (User user : userInLondon) {
-      if (calculateDistance(latitude, longitude, user) <= MAX_DISTANCE) {
-        return true;
+    if (!userInLondon.isEmpty()) {
+      for (User user : userInLondon) {
+        if (calculateDistance(latitude, longitude, user.getLatitude(), user.getLongitude())
+            <= MAX_DISTANCE) {
+          return true;
+        }
       }
+    } else {
+      double londonLatitude = 51.5072;
+      double londonLongitude = 0.1275;
+
+      return calculateDistance(latitude, longitude, londonLatitude, londonLongitude)
+          <= MAX_DISTANCE;
     }
+
     return false;
   }
 
@@ -33,21 +43,21 @@ public class LondonApiService {
 
     final List<User> userInOrNearLondon = new ArrayList<>();
     final List<User> userInLondon = externalLondonApi.getUserInCity("London");
-    if (!userInLondon.isEmpty()) {
-      final List<User> users = externalLondonApi.getUsers();
-      for (User user : users) {
-        if (isNearLondon(user.getLatitude(), user.getLongitude(), userInLondon)) {
-          userInOrNearLondon.add(user);
-        }
+
+    final List<User> users = externalLondonApi.getUsers();
+    for (User user : users) {
+      if (isNearLondon(user.getLatitude(), user.getLongitude(), userInLondon)) {
+        userInOrNearLondon.add(user);
       }
     }
 
     return userInOrNearLondon;
   }
 
-  private double calculateDistance(double latitude, double longitude, User user) {
+  private double calculateDistance(double latitude, double longitude, double londonLatitude,
+      double londonLongitude) {
     return Math.sqrt(
-        Math.pow(latitude - user.getLatitude(), 2) + Math.pow(longitude - user.getLongitude(), 2));
+        Math.pow(latitude - londonLatitude, 2) + Math.pow(
+            longitude - londonLongitude, 2));
   }
-
 }
