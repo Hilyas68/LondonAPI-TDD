@@ -14,6 +14,8 @@ import java.util.Objects;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -39,13 +41,14 @@ public class LondonApiServiceTest {
         "should return the list of users in london");
   }
 
-  @Test
+  @ParameterizedTest
+  @CsvSource({"-7.5115909,130.652983, true", "-27.3482312,-51.6044276, false"})
   @DisplayName("Given a coordinate confirm if it's 50 miles of London.")
-  public void checkIfCoordinateNearLondon() {
+  public void checkIfCoordinateNearLondon(double latitude, double longitude, boolean expected) {
 
-    boolean isNearLondon = londonApiService.isNearLondon(-7.5115909, 130.652983,
+    boolean isNearLondon = londonApiService.isNearLondon(latitude, longitude,
         getUsers("users_in_london.json"));
-    assertTrue(isNearLondon, "should return true or false");
+    assertEquals(expected, isNearLondon, "should return true or false");
   }
 
   @Test
