@@ -2,7 +2,6 @@ package uk.gov.dwp.londonapi.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uk.gov.dwp.londonapi.service.dto.User;
@@ -13,6 +12,8 @@ import uk.gov.dwp.londonapi.service.external.ExternalLondonApi;
 public class LondonApiService {
 
   public static final int MAX_DISTANCE = 50;
+  public static final double LONDON_LATITUDE = 51.5072;
+  public static final double LONDON_LONGITUDE = 0.1275;
   private final ExternalLondonApi externalLondonApi;
 
   public List<User> getUserInCity(String city) {
@@ -29,10 +30,7 @@ public class LondonApiService {
         }
       }
     } else {
-      double londonLatitude = 51.5072;
-      double londonLongitude = 0.1275;
-
-      return calculateDistance(latitude, longitude, londonLatitude, londonLongitude)
+      return calculateDistance(latitude, longitude, LONDON_LATITUDE, LONDON_LONGITUDE)
           <= MAX_DISTANCE;
     }
 
