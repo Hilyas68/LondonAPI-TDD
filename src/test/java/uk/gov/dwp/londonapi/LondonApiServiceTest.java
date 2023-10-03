@@ -91,7 +91,8 @@ public class LondonApiServiceTest {
   }
 
   @Test
-  @DisplayName("Given all users, return the users that are in london or 50 miles of London")
+  @DisplayName("Given some users in london and all users, return the users that are in london "
+      + "or 50 miles of London")
   public void returnUsersInLondonOrNear() {
 
     when(externalLondonApi.getUsers()).thenReturn(helper.getUsers("all_users.json"));
